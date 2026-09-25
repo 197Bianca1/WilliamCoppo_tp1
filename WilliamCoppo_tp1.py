@@ -5,11 +5,11 @@ from PySide6.QtWidgets import QLabel, QTableWidget, QLineEdit, QApplication,QTab
 from PySide6.QtCore import Qt
 
 #mettre le chemin du fichier JSON à charger
-nom_fichier = input("Entrez le nom du fichier JSON à charger: ")
+file_name = input("Entrez le nom du fichier JSON à charger: ")
 
 try:
     # lit le fichier JSON et decode les données tout en les stockant dans la variable data
-    with open(nom_fichier, 'r', encoding='utf-8') as file:
+    with open(file_name, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
 # exception en cas d'erreure de nom de fichier
@@ -26,3 +26,18 @@ except json.JSONDecodeError as e:
 app = QApplication(sys.argv)
 
 # crée un tableau
+table = QTableWidget()
+
+# mise en place des élément dans le tableau
+table.setRowCount(len(data))
+table.setColumnCount(len(data[0]))
+table.setHorizontalHeaderLabels(data[0].keys())
+
+#construction du tableau avec les données du fichier JSON
+for i, item in enumerate(data):
+    for j, col in enumerate(data[0].keys()):
+        value = item.get(col, "")
+        table.setItem(i, j, QTableWidgetItem(str(value)))
+
+table.show()
+sys.exit(app.exec())
