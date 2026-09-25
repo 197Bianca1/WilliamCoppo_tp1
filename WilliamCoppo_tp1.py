@@ -39,5 +39,9 @@ for i, item in enumerate(data):
         value = item.get(col, "")
         table.setItem(i, j, QTableWidgetItem(str(value)))
 
+table.setSortingEnabled(True)
+
+
+
 table.show()
 sys.exit(app.exec())
